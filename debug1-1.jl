@@ -1,14 +1,12 @@
 function fun(W)
     m, n = size(W)
-    e = 0
-    E = Int[]  # 初始化边数组
-    
+    E = Vector{Tuple{Int,Int,Float64}}()  # 使用元组存储边
+
     # 收集非零权重的边
     for i in 1:n
         for j in i:n
-            if W[i, j] != 0
-                e += 1
-                E[e,:]=[i j W(i, j)]
+            if W[i, j] != 0 && W[i, j] != Inf
+                push!(E, (i, j, W[i, j]))
             end
         end
     end
@@ -16,17 +14,17 @@ function fun(W)
     # 按权值大小排列边的顺序
     sort!(E, by = x -> x[3])
     
-    A = zeros(Int, 1, 3) # 初始化 A 为一个零行三列数组
+    A = Vector{Tuple{Int,Int,Float64}}()  # 初始化 A 为空向量
     S = collect(1:n)     # 初始化集合 S
     
-    for i in 1:e
-        u = E[i, 1]
-        v = E[i, 2]
+    for (u, v, weight) in E
+        # 确保 u 和 v 是整数
+        u, v = Int(u), Int(v)
         
         # 判断是否在同一集合中
         if S[u] != S[v]
             # 添加边到 A
-            A = vcat(A, E[i, :])  # 垂直连接
+            push!(A, (u, v, weight))
         
             indicator = S[u]
             for j in 1:n
@@ -56,4 +54,6 @@ w = [
 # 调用函数
 A = fun(w)
 println("结果矩阵 A:")
-println(A)
+for edge in A
+    println(edge)
+end
