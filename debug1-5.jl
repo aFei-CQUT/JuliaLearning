@@ -20,23 +20,24 @@ function fun(W)
     sort!(E, by = x -> x[3])
     
     A = Vector{Tuple{Int,Int,Float64}}()  # 初始化 A 为空向量
-    S = collect(1:n)     # 初始化集合 S
+    S = [Set([i]) for i in 1:n]  # 初始化每个节点为单独的集合
     
     for (u, v, weight) in E
         # 确保 u 和 v 是整数
         u, v = Int(u), Int(v)
         
-        # 判断是否在同一集合中
-        if S[u] != S[v]
+        # 找到 u 和 v 所在的集合
+        set_u = findfirst(set -> u in set, S)
+        set_v = findfirst(set -> v in set, S)
+        
+        # 如果 u 和 v 不在同一个集合中
+        if set_u != set_v
             # 添加边到 A
             push!(A, (u, v, weight))
         
-            indicator = S[u]
-            for j in 1:n
-                if S[j] == indicator
-                S[j] = S[v]  # 合并集合
-                end
-            end
+            # 合并集合
+            union!(S[set_u], S[set_v])
+            deleteat!(S, set_v)
         end
     end
     
