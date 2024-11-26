@@ -40,5 +40,5 @@ Plots.plot!(p3, sol2, idxs=(1,2), label="Initial: [1.0, 2.0]")
 # 在相轨线图上标记起始点
 Plots.scatter!(p3, [0.1], [0.1], label="Start [0.1, 0.1]", marker=:diamond)
 Plots.scatter!(p3, [1.0], [2.0], label="Start [1.0, 2.0]", marker=:circle)
-Plots.title!(p3, "Phase Portrait")
-Plots.savefig(p3, "phase_portrait.html")  # 保存图形为HTML文件
+Plots.title!(p3, "甲乙种群相轨线")
+Plots.savefig(p3, "phase_portrait_for_7.html")  # 保存图形为HTML文件
