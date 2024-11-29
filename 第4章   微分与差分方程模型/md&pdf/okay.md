@@ -19,7 +19,7 @@ sol = dsolve(eq, m(t), ics=Dict(m(0) => c))
 @show sol # 显示解
 ```
 
-![](1-1.png)
+<img src="1-1.png" style="zoom:30%;" />
 
 ## TodoList 2
 
@@ -27,7 +27,6 @@ sol = dsolve(eq, m(t), ics=Dict(m(0) => c))
 using SymPy
 using Plots
 plotlyjs()  # 使用 PlotlyJS 后端
-# using PlotlyJS 和 plotlyjs() 第一次在环境中运行会出错，这属于 Julia-1.11.1 版本的一个错误，可以在 startup.jl 下预先加载再使用 plotlyjs() 防止报错
 
 # 定义符号变量t（时间）
 @syms t
@@ -41,7 +40,7 @@ m_eq = dsolve(Eq(diff(m(t), t) + 0.1851*m(t), 0), m(t), ics=Dict(m(0) => 737.766
 @show m_eq
 
 # 求解血液中酒精含量的微分方程
-x_eq = dsolve(Eq(diff(x(t), t) - 130.5155*exp(-0.1950*t) + 1.8537*x(t), 0), x(t), ics=Dict(x(0) => 18.6360))
+x_eq = dsolve(Eq(diff(x(t), t) - 136.5605*exp(-0.1851*t) + 1.9801*x(t), 0), x(t), ics=Dict(x(0) => 18.8486))
 @show x_eq
 
 # 创建时间序列
@@ -56,8 +55,28 @@ end
 m_values = [Float64(numeric_eval(m_eq.rhs, tv)) for tv in t_values]
 x_values = [Float64(numeric_eval(x_eq.rhs, tv)) for tv in t_values]
 
-# 绘制图形
-p = Plots.plot(t_values, m_values, 
+# 绘制胃肠道酒精含量图
+p1 = Plots.plot(t_values, m_values, 
+    label="胃肠道酒精含量", 
+    xlabel="时间 (小时)", 
+    ylabel="酒精含量", 
+    title="胃肠道酒精含量随时间变化",
+    linewidth=2,
+    legend=:topright
+)
+
+# 绘制血液酒精含量图
+p2 = Plots.plot(t_values, x_values, 
+    label="血液酒精含量", 
+    xlabel="时间 (小时)", 
+    ylabel="酒精含量", 
+    title="血液酒精含量随时间变化",
+    linewidth=2,
+    legend=:topright
+)
+
+# 绘制组合图
+p3 = Plots.plot(t_values, m_values, 
     label="胃肠道酒精含量", 
     xlabel="时间 (小时)", 
     ylabel="酒精含量", 
@@ -65,19 +84,25 @@ p = Plots.plot(t_values, m_values,
     linewidth=2,
     legend=:topright
 )
-Plots.plot!(p, t_values, x_values, 
+Plots.plot!(p3, t_values, x_values, 
     label="血液酒精含量",
     linewidth=2
 )
 
 # 保存图像为HTML文件
-Plots.savefig(p, "alcohol_content_plot.html")
-
+Plots.savefig(p1, "gastric_alcohol_content_plot.html")
+Plots.savefig(p2, "blood_alcohol_content_plot.html")
+Plots.savefig(p3, "combined_alcohol_content_plot.html")
 ```
 
-![](2-1.png)
+<img src="2-1.png" style="zoom:30%;" />
 
-<img src="alcohol_content_plot.png" style="zoom:85%;" />
+<div style="display: flex; justify-content: center; align-items:center; gap: 20px">
+	<img src="blood_alcohol_content_plot.png" alt="blood alcohol" style="max-width: 45%">
+	<img src="gastric_alcohol_content_plot.png" alt="gastric alcohol" style="max-width:45%">
+</div>
+
+<img src="combined_alcohol_content_plot.png" style="zoom:80%;" />
 
 ## TodoList 3
 
@@ -136,10 +161,9 @@ p2 = Plots.plot(t_values, i_values,
 
 # 保存i(t)的图像
 Plots.savefig(p2, "i_t_plot.html")
-
 ```
 
-![](3-1.png)
+<img src="3-1.png" style="zoom:30%;" />
 
 <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
   <img src="myfun1_plot.png" alt="Time Series" style="max-width: 45%;">
@@ -205,10 +229,9 @@ Plots.annotate!([(t_inflection, i_inflection, Plots.text("拐点", :red, :bottom
 
 # 保存图像为HTML文件
 Plots.savefig(p, "patient_proportion_plot.html")
-
 ```
 
-![](4-1.png)
+<img src="4-1.png" style="zoom:30%;" />
 
 <img src="patient_proportion_plot.png" style="zoom:85%;" />
 
@@ -235,12 +258,11 @@ sol = dsolve(eq, i(t), ics=Dict(i(0) => i0))
 simplified_sol = simplify(rhs(sol))
 println("\n简化后的解：")
 println(simplified_sol)
-
 ```
 
-![](5-1.png)
+<img src="5-1.png" style="zoom:30%;" />
 
-![](5-2.png)
+<img src="5-2.png" style="zoom:30%;" />
 
 ## TodoList 6
 
@@ -293,12 +315,11 @@ Plots.quiver!(p2, [0.5], [0.15], quiver=([0.1], [0]), color=:black)
 
 # 保存相图为 HTML 格式
 Plots.savefig(p2, "sir_model_phase_plot.html")
-
 ```
 
-![](6-1.png)
+<img src="6-1.png" style="zoom:30%;" />
 
-![](6-2.png)
+<img src="6-2.png" style="zoom:30%;" />
 
 <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
   <img src="sir_model_time_series.png" alt="Time Series" style="max-width: 45%;">
@@ -352,12 +373,11 @@ Plots.scatter!(p3, [0.1], [0.1], label="Start [0.1, 0.1]", marker=:diamond)
 Plots.scatter!(p3, [1.0], [2.0], label="Start [1.0, 2.0]", marker=:circle)
 Plots.title!(p3, "甲乙种群相轨线")
 Plots.savefig(p3, "phase_portrait_for_7.html")  # 保存图形为HTML文件
-
 ```
 
-![](7-1.png)
+<img src="7-1.png" style="zoom:30%;" />
 
-![](7-2.png)
+<img src="7-2.png" style="zoom:30%;" />
 
 <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
   <img src="time_series_1.png" alt="Time Series" style="max-width: 45%;">
@@ -410,10 +430,9 @@ Plots.scatter!(p2, [x0[1]], [x0[2]], label="Start", marker=:circle)
 
 # 保存相轨线图为 HTML 文件
 Plots.savefig(p2, "phase_portrait_for_8.html")
-
 ```
 
-![](8-1.png)
+<img src="8-1.png" style="zoom:30%;" />
 
 <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
   <img src="time_series.png" alt="Time Series" style="max-width: 45%;">
