@@ -16,10 +16,10 @@ function lprf_req(pt, freq, G, sigma, tao, NF, L, range, np)
     np_log = 10 .* log10.(np)
     snr2 = num1 .+ np_log .- num2 .- range_db'
     
-    # 方法3：使用网格进行广播运算
-    np_grid = reshape(np, :, 1)
-    range_grid = reshape(range, 1, :)
-    snr3 = num1 .+ 10 * log10.(np_grid) .- num2 .- 40 * log10.(range_grid * 1000.0)
+    # 方法3：使用矩阵进行广播运算
+    np_reshape = reshape(np, :, 1)
+    range_reshape = reshape(range, 1, :)
+    snr3 = num1 .+ 10 * log10.(np_reshape) .- num2 .- 40 * log10.(range_reshape * 1000.0)
     
     # 方法4：使用循环
     snr4 = zeros(length(np), length(range))
@@ -45,7 +45,7 @@ function lprf_req(pt, freq, G, sigma, tao, NF, L, range, np)
     hold("on")
     grid("on")
     for i in axes(snr2, 1)
-        plot(range, snr2[i,:])
+        plot(range, snr2[i, :])
     end
     title("方法2: 使用广播")
     xlabel("距离/km")
@@ -55,9 +55,9 @@ function lprf_req(pt, freq, G, sigma, tao, NF, L, range, np)
     hold("on")
     grid("on")
     for i in axes(snr3, 1)
-        plot(range, snr3[i,:])
+        plot(range, snr3[i, :])
     end
-    title("方法3: 使用网格进行广播运算")
+    title("方法3: 使用矩阵进行广播运算")
     xlabel("距离/km")
     ylabel("SNR/dB")
 
@@ -65,7 +65,7 @@ function lprf_req(pt, freq, G, sigma, tao, NF, L, range, np)
     hold("on")
     grid("on")
     for i in axes(snr4, 1)
-        plot(range, snr4[i,:])
+        plot(range, snr4[i, :])
     end
     title("方法4: 使用循环")
     xlabel("距离/km")

@@ -14,10 +14,10 @@ function power_aperture(range, snr, sigma, tsc, az_angle, el_angle, NF, L)
     range_log = 40 .* log10.(range .* 1000)
     PAP2 = num1 .- num2 .+ range_log'
     
-    # 方法3：使用网格进行广播运算
-    range_grid = reshape(range, 1, :)
-    sigma_grid = reshape(sigma, :, 1)
-    PAP3 = num1 .- sigma_grid .- 10 * log10(tsc) .+ 40 * log10.(range_grid * 1000)
+    # 方法3：使用矩阵进行广播运算
+    range_reshape = reshape(range, 1, :)
+    sigma_reshape = reshape(sigma, :, 1)
+    PAP3 = num1 .- sigma_reshape .- 10 * log10(tsc) .+ 40 * log10.(range_reshape * 1000)
     
     # 方法4：使用循环
     PAP4 = zeros(length(sigma), length(range))
@@ -43,7 +43,7 @@ function power_aperture(range, snr, sigma, tsc, az_angle, el_angle, NF, L)
     hold("on")
     grid("on")
     for i in axes(PAP2, 1)
-        plot(range, PAP2[i,:])
+        plot(range, PAP2[i, :])
     end
     title("方法2: 使用广播")
     xlabel("探测距离/km")
@@ -53,9 +53,9 @@ function power_aperture(range, snr, sigma, tsc, az_angle, el_angle, NF, L)
     hold("on")
     grid("on")
     for i in axes(PAP3, 1)
-        plot(range, PAP3[i,:])
+        plot(range, PAP3[i, :])
     end
-    title("方法3: 使用网格进行广播运算")
+    title("方法3: 使用矩阵进行广播运算")
     xlabel("探测距离/km")
     ylabel("功率孔径积/dB")
 
@@ -63,7 +63,7 @@ function power_aperture(range, snr, sigma, tsc, az_angle, el_angle, NF, L)
     hold("on")
     grid("on")
     for i in axes(PAP4, 1)
-        plot(range, PAP4[i,:])
+        plot(range, PAP4[i, :])
     end
     title("方法4: 使用循环")
     xlabel("探测距离/km")

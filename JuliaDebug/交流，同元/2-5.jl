@@ -23,13 +23,13 @@ function hprf_req(pt, freq, G, sigma, ti, range, NF, L, dt)
         end
     end
 
-    # 方法3：使用网格进行广播运算
-    num1_grid = reshape(num1, :, 1)  # 将 num1 转换为列向量
-    num2_grid = reshape(num2, 1, :)  # 将 num2 转换为行向量
-    snr3 = num1_grid .- num2_grid    # 广播减法操作
+    # 方法3：使用矩阵进行广播运算
+    num1_reshape = reshape(num1, :, 1)  # 将 num1 转换为列向量
+    num2_reshape = reshape(num2, 1, :)  # 将 num2 转换为行向量
+    snr3 = num1_reshape .- num2_reshape    # 广播减法操作
 
     # 方法4：列表推导式
-    snr4 = [num1[i] .- num2 for i in 1:length(dt)]
+    snr4 = [num1[i] .- num2 for i in eachindex(dt)]
 
     # 画图
     figure()
@@ -53,7 +53,7 @@ function hprf_req(pt, freq, G, sigma, ti, range, NF, L, dt)
     hold("on")
     grid("on")
     plot(range, snr3')
-    title("方法3: 使用网格进行广播运算")
+    title("方法3: 使用矩阵进行广播运算")
     xlabel("距离/km")
     ylabel("SNR/dB")
 
