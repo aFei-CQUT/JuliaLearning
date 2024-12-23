@@ -1,0 +1,69 @@
+模型 3. 人口发展方程
+假设只考虑人口的自然出生和死亡，不考虑迁移等社会因素的影响。将人口数量的变动看成是连续的，引入人口分布函数和密度函数（仿照概率论中连续型随机变量的分布函数和概率密度函数）。用 $F(r, t)$ 表示 $t$ 时刻年龄小于 $r$ 的人口数量，称为人口分布函数，并设 $F(r, t)$ 连续、可微。显然，对于任意的 $r$ 和 $t, F(r, t) \geq 0$ ；且对于任意的 $t$, 当 $r_1 \leq r_2$ 时, 有 $F\left(r_1, t\right) \leq F\left(r_2, t\right)$, 即 $F(r, t)$ 关于 $r$ 单调递增。特别地, 若用 $r_{\mathrm{m}}$ 表示最高年龄, $N(t)$ 表示 $t$ 时刻的人口总数, 则有 $F(0, t)=0$, $F\left(r_m, t\right)=F(\infty, t)=N(t) 。$
+
+称
+
+$$
+p(r, t)=\frac{\partial F}{\partial r}
+$$
+
+
+为人口密度函数，即 $p(r, t) d r$ 表示 $t$ 时刻年龄在区间 $[r, r+d r)$ 上的人口数量，则 $t$ 时刻年龄在区间 $\left[r_1, r_2\right)$ 上的人口数量可表示为
+
+$$
+F\left(r_2, t\right)-F\left(r_1, t\right)=\int_{\pi_1}^{r_2} p(r, t) d r .
+$$
+
+
+记
+
+$$
+\mu(r, t)=\lim _{\Delta r \rightarrow 0} \frac{M(r, t) \Delta r}{p(r, t) \Delta r}
+$$
+
+
+为 $t$ 时刻年龄是 $r$ 的人群的相对死亡率函数，这里 $M(r, t) \Delta r$ 表示 $t$ 时刻年龄在 $[r, r+\Delta r)$ 内单位时间的死亡人数， $p(r, t) \Delta r$ 表示 $t$ 时刻年龄在 $[r, r+\Delta r)$ 内活着的人数。另外，根据式（4.3.9）， $t$ 时刻年龄在 $[r, r+d r)$ 内单位时间的死亡人数也可表示为 $\mu(r, t) p(r, t) d r$ 。
+
+下面考虑关于 $p(r, t)$ 的方程。在不计人口迁移时，考察 $t$ 时刻年龄在 $[r, r+d r)$ 内的人群经过时间 $d t$ 后的数量变动情况。 $t$ 时刻年龄在 $[r, r+d r)$ 内的人数为 $p(r, t) d r$ ，当经过时间 $d t$ 到 $t+d t$ 后，死亡人数为 $\mu(r, t) p(r, t) d r d t$, 活着的人数年龄变为 $\left[r+d r_1, r+d r+d r_1\right)$, 这里 $d r_1=d t$, 故 $t+d t$时刻, 年龄在 $\left[r+d r_1, r+d r+d r_1\right)$ 内的人口数量为 $p\left(r+d r_1, t+d t\right) d r$, 这样, 便有
+
+$$
+p(r, t) d r-p\left(r+d r_1, t+d t\right) d r=\mu(r, t) p(r, t) d r d t .
+$$
+
+
+上式可改写成
+
+$$
+\left[p\left(r+d r_1, t+d t\right)-p(r, t+d t)\right] d r+[p(r, t+d t)-p(r, t)] d r=-\mu(r, t) p(r, t) d r d t .
+$$
+
+
+两边同时除以 $d r d t$, 并令 $d t \rightarrow 0$, 则有
+
+$$
+\frac{\partial p(r, t)}{\partial r}+\frac{\partial p(r, t)}{\partial t}=-\mu(r, t) p(r, t)
+$$
+
+
+记 $t=0$ 时刻人口密度函数为 $p(r, 0)=p_0(r)$, 并记 $p(0, t)=f(t)=\varepsilon(t) N(t)$, 则 $f(t) d r$ 表示 $t$ 时刻年龄在 $[0, d r)$ 内的人口数量，即表示出生的嬰儿数量，故 $f(t)$ 又称为出生率函数（或绝对出生率函数), $\varepsilon(t)=f(t) / N(t)$ 称为相对出生率函数。结合式 (4.3.10), 得到考虑年龄结构的人口发展方程：
+
+$$
+\left\{\begin{array}{l}
+\frac{\partial p(r, t)}{\partial r}+\frac{\partial p(r, t)}{\partial t}=-\mu(r, t) p(r, t) \\
+p(r, 0)=p_0(r) \\
+p(0, t)=f(t)=\varepsilon(t) N(t)
+\end{array}\right.
+$$
+
+
+在社会比较稳定且时间比较短的情况下, 可以认为相对死亡率与时间 $t$ 无关, 即 $\mu(r, t)=\mu(r)$,此时式 (4.3.11) 的解为
+
+$$
+p(r, t)=\left\{\begin{array}{l}
+p_0(r-t) e^{-\int_{T-1}^r \mu(x) d x}, 0 \leq t \leq r \\
+f(r-t) e^{-\int_0^r \mu(x) d x}, t>r
+\end{array}\right.
+$$
+
+
+这里 $p_0(r-t)$ 为初始人口密度函数。由式（4.3.12）可以看出，当 $0 \leq t \leq r$ 时， $p(r, t)$ 取决于初始人口密度和相对死亡率；当 $t>r$ 时 $p(r, t)$ 取决于绝对出生率和相对死亡率。而初始人口密度、相对死亡率都可以通过人口统计数据获取，因此通过式（4.3.12）来考虑人口的结构情况就只需要对绝对出生率进行控制。
