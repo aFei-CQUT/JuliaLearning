@@ -1,0 +1,327 @@
+第六节 LINMAP 法
+LINMAP 为 Linear Programming Techniques for Multidimensional Analysis of Preference的缩写，表示多维偏好分析的线性规划方法。LINMAP 法和 TOPSIS 法有类似之处，这两种方法都借助于理想解去评价方案的优劣。LINMAP 法和 TOPSIS 法不同之处在于 LINMAP法的理想解不是事先给出的，而是通过决策者对方案的成对比较去估计权值和理想解的位置。
+
+这里用 $n$ 维目标空间中的 $m$ 个点来表示一个具有 $n$ 个属性的多目标决策问题的 $m$ 个方案, 并设决策者所最偏好的方案(不一定能实现的理想解)能用目标空间中的理想点来表示,一旦理想点被确定以后，对于任意两个方案，决策者会更偏好靠近理想点的那个方案。为了比较两个方案靠近理想点的程度，在目标空间中定义一个加权的欧几里得距离。空间中任一点 $\left(x_n, x_{i 2}, \ldots, x_{i n}\right)$ 到理想点 $\left(x_1^*, \dot{x}_2^*, \ldots, \dot{x}_n^*\right)$ 的加权欧几里得距离为
+
+$$
+d_i=\left[\sum_{j=1}^n w_j\left(x_{i j}-\dot{x}_j\right)^2\right]^{1 / 2}, \quad i=1,2, \ldots, m
+$$
+
+
+其中 $w_j, j=1,2, \ldots, n$ 为第 $j$ 个属性的权重， $\left(x_n, x_{i 2}, \ldots, x_{i n}\right)$ 到理想点 $\left(x_1^*, \dot{x}_2^*, \ldots, \dot{x}_n^*\right)$ 的平方距离为
+
+$$
+S_i=d_i^2=\sum_{j=1}^n w_j\left(x_{i j}-\dot{x}_j^{\prime}\right)^2, \quad i=1,2, \ldots, m
+$$
+
+
+其中权 $w_j, j=1,2, \ldots, n$ 和理想点的位置 $\left(x_1^*, x_2^*, \ldots, x_n^*\right)$ 都是待确定的，下面将通过决策者对方案的成对比较来确定它们的值。
+
+为方便起见，用 $(k, l)$ 记一对方案 $\left(x_k, x_f\right)$ ，这对方案有先后次序，其中 $k$ 表示把方案 $k$ 和方案 1 作比较后决策者更偏好 $k$ 方案。记 $Q=\{(k, I)\}$ 表示有序对 $(k, I)$ 的集。若方案有 $m$ 个,并且把每对方案作比较, 则 $Q$ 中将有 $m(m-1) / 2$ 个元素。
+
+
+
+
+当选择了权和理性点 $\left(w, x^*\right)$ 的值以后, 就能坡计算每对方案 $(k, I)$ 和理想点之间的加权的欧几里得距离
+
+$$
+S_k=\sum_{j=1}^x w_j\left(x_{y j}-x_j^*\right)^2
+$$
+
+
+和
+
+$$
+S_1=\sum_{j=1}^x w_j\left(x_{1 j}-x_j^*\right)^2
+$$
+
+
+其中 $x_{i j}$ 是第 $k$ 个方案 $x_k$ 的第 $j$ 个属性的值， $x_b$ 是第 $I$ 个方案 $x_j$ 的第 $j$ 个属性的值。对于 $Q$ 中的一对方案 $(k, I)$, 若相应的 $S_k$ 和 $S$, 满足
+
+$$
+S_1 \geq S_k
+$$
+
+
+则方案 $k$ 较方案 $l$ 更靠近或同样靠近理想点，因此加权距离模型将和决策者的偏好一致，反之, 若
+
+$$
+S_1<S_2
+$$
+
+
+则加权距离模型和决策者的偏好不一致，权和理想点（ $w, \dot{x}$ ）的选择应使加权距离模型屈量和决策者的偏好一致，即尽量符合有序对 $(k, I)$ 的集 $Q$ 。
+
+为了对加权距离模型和有序对 $(k, I)$ 不一致的程度进行度量, 令
+
+$$
+\begin{aligned}
+\left(S_j-S_i\right)^{-} & =\left\{\begin{array}{c}
+0, \text { 加 } S_j \geq S_s \\
+S_k-S_j, \text { 如 } S_i<S_k
+\end{array}\right. \\
+& =\max \left(0,\left(S_k<S_i\right)\right) .
+\end{aligned}
+$$
+
+
+显然. 若 $S_j \geq S_x$, 则模型和有序对 $(k, I)$ 一致, 作为不一致程度度量的量 $\left(S_1-S_x\right)^{-}$应为 0 。若 $S_1<S_k$, 则模型和有序对 $(k, i)$ 不一致, $S_x$ 和 $S_J$ 的差越大, 不一致程度越高, 因此 $\left(S_j-S_k\right)^{-}$应为 $S_k-S_j$ 。对 $Q$ 中所有的对 $(k, i)$ 求和, 令
+
+$$
+B=\sum_{\alpha, 10=0}\left(S_I-S_k\right)^{-}
+$$
+
+
+表示模型和决策者的傦好的总不一致程度，也称之为不一致度。多目标决策问题即转化为寻找最优的 $\left(w, x^{\prime}\right)$ 使得 $B$ 极小。通常，这个问题会导致一个平凡解 $w_j=0, j=1,2, \ldots \ldots, n$ 。因此对 $B$ 求极小必须浲加另外的约東条件。
+
+定文一致度 $G$ :
+
+$$
+G=\sum_{\left(k_i, x_0\right.}\left(S_t-S_k\right)^{+}
+$$
+
+
+而
+
+$$
+\left(S_1-S_k\right)^{+}=\left\{\begin{array}{c}
+S_j-S_k, \text { 如 } S_i \geq S_k \\
+0, \text { 如 } S_1<S_k
+\end{array}\right.
+$$
+
+
+即 $G$ 为一测度，反映了模型和决策者的偏好一致的程度。再对 $B$ 求极小涾加如下约東条件：
+
+$$
+G>B
+$$
+
+
+
+
+
+或者
+
+$$
+G-B=h
+$$
+
+
+其中 $h$ 为某个正数。由 $\left(S_1-S_k\right)^{+}$和 $\left(S_1-S_k\right)^{-}$可得
+
+$$
+\left(S_f-S_k\right)^{+}-\left(S_f-S_k\right)^{-}=S_f-S_k
+$$
+
+
+故
+
+$$
+\begin{aligned}
+& G-B=\sum_{(k, n \in Q}\left(S_S-S_k\right)^{+}-\sum_{(k \geqslant \geqslant=0}\left(S_J-S_k\right)^{-}
+\end{aligned}
+$$
+
+
+$$
+\begin{aligned}
+& =\sum_{k, N=0}\left(S_S-S_k\right)=h .
+\end{aligned}
+$$
+
+
+因而（ $w, \dot{x}$ ）即可通过求解加下含约東的最优化模型得到：
+
+$$
+\begin{array}{ll} 
+& \min \left\{B=\sum_{\{k, j\rangle=0} \max \left\{0,\left(S_k-S_j\right)\right\}\right\} \\
+\text { s.t. } \quad & \sum_{\{k \neq 0,0}\left(S_j-S_k\right)=h .
+\end{array}
+$$
+
+
+该最优化模型可转化为如下线性规划模型:
+
+$$
+\min \sum_{k, 1=q} \lambda_{k r}
+$$
+
+s.t. $\left(S_f-S_k\right)+\lambda_{k I} \geq 0$, 对于所有的 $(k, I) \in Q$,
+
+$$
+\lambda_{u r} \geq 0 \text {, 对于所有的 }(k, I) \in Q \text {. }
+$$
+
+
+这里，由(14.6.18)式可以得到
+
+$$
+\lambda_x \geq S_x-S_1
+$$
+
+
+又由(14.6.20)式 $\lambda_{21}$ 的非负性有
+
+$$
+\left.\lambda_{k t} \geq \max \left\{0,\left(S_k-S_{\mathrm{J}}\right)\right\}\right\}
+$$
+
+
+因为对目标函数 $\lambda_x$ 求极小，故
+
+$$
+\left.\lambda_n=\max \left\{0,\left(S_k-S_l\right)\right\}\right\}
+$$
+
+
+因而式(14.6.17)等价于式(14.6.15)。
+由加权的欲几里得距㐫得到，
+
+$$
+\begin{aligned}
+S_1-S_i & =\sum_{j=1}^n w_j\left(x_{i j}-x_j^*\right)^2-\sum_{j=1}^{\infty} w_j\left(x_{k j}-x_j^*\right)^2 \\
+& =\sum_{j=1}^D w_j\left(x_j^2-x_{i j}^2\right)-2 \sum_{j=1}^n w_j x_j^{\prime}\left(x_{j j}-x_{k j}\right)
+\end{aligned}
+$$
+
+
+因为 $w_j$ 和 $x_j$ j都是未知数，故可以用 $v_j$ 去代替 $w_j x_j^*$ ，即有线性规划模型
+
+$$
+\min \sum_{\mid x, n=0]} \lambda_w
+$$
+
+
+
+
+
+s.t. $\sum_{j=1}^n w_j\left(x_{i j}^2-x_{k j}^2\right)-2 \sum_{j=1}^n v_j\left(x_{j j}-x_{k j}\right)+\lambda_{k l} \geq 0$, 对于所有的 $(k, i) \in Q$.
+
+$$
+\begin{gathered}
+\sum_{j=1}^n w_j \sum_{(k, n) \in Q}\left(x_{y j}^2-x_{k j}^2\right)-2 \sum_{j=1}^n v_j \sum_{(k, n) \in Q}\left(x_{y j}-x_{k j}\right)=h, \\
+w_j \geq 0, j=1,2, \ldots, n, \\
+\lambda_{k l} \geq 0, \text { 对于所有的 }(k, l) \in Q .
+\end{gathered}
+$$
+
+
+例 14.6.1 某企业考虑下一年度该企业产品原材料的供应问题，选取了 5 个业内比较认可的原材料供应商，从产品综合素质和业务结构两个方面来进行比较，每个供应商相对于这两个指标都有不同的重要性程度，且取值由该企业决策者根据企业相关部门对供应商的考核情况进行综合打分得出，得到下述决策矩阵：
+
+$$
+A=\begin{gathered}
+x_1 \\
+x_1 \\
+x_2 \\
+x_3 \\
+x_4 \\
+x_5
+\end{gathered}\left[\begin{array}{ll}
+0 & c_2 \\
+5 & 4 \\
+0 & 2 \\
+1 & 3 \\
+4 & 1
+\end{array}\right]
+$$
+
+
+决策者通过对这 5 个供应商两两比较, 得出结果如下:
+
+$$
+Q=\{(1,2),(3,1),(4,1),(5,1),(2,3),(2,4),(2,5),(4,3),(3,5),(4,5)\}
+$$
+
+
+值得注意的是 $Q$ 中有决策者的非传递的偏好判断，例如 $x_1 \succ x_2, x_2 \succ x_3$ ，但 $x_3 \succ x_1$ 。
+故上述线性规划模型中的第一个约束条件由成对比较方案 $(k, I)=(1,2)$ 得到
+
+$$
+\sum_{j=1}^3 w_j\left(x_{2 j}^2-x_{1 j}^2\right)-2 \sum_{j=1}^3 v_j\left(x_{2 j}-x_{1 j}\right)+\lambda_{12} \geq 0
+$$
+
+
+即
+
+$$
+w_1(25-0)+w_2(16-25)-2 v_1(5-0)-2 v_2(4-5)+\lambda_{12} \geq 0
+$$
+
+
+也即
+
+$$
+25 w_1-9 w_2+10 v_1+2 v_2+\lambda_{12} \geq 0
+$$
+
+
+类似地，可以得到其它约束条件，并得到如下线性规划模型：
+
+$$
+\min \lambda=\lambda_{12}+\lambda_{31}+\lambda_{41}+\lambda_{51}+\lambda_{23}+\lambda_{24}+\lambda_{25}+\lambda_{43}+\lambda_{35}+\lambda_{45}
+$$
+
+s.t.
+
+$$
+\begin{gathered}
+25 w_1-9 w_2+10 v_1+2 v_2+\lambda_{12} \geq 0 \\
+21 w_2-6 v_2+\lambda_{31} \geq 0 \\
+-w_1+16 w_2+2 v_1-4 v_2+\lambda_{41} \geq 0 \\
+-16 w_1+24 w_2+8 v_1-8 v_2+\lambda_{51} \geq 0 \\
+-25 w_1-12 w_2+10 v_1+4 v_2+\lambda_{23} \geq 0
+\end{gathered}
+$$
+
+
+
+
+
+$$
+\begin{gathered}
+-24 w_1-7 w_2+8 v_1+2 v_2+\lambda_{24} \geq 0, \\
+-9 w_1-15 w_2+2 v_1+6 v_2+\lambda_{25} \geq 0, \\
+-w_1-5 w_2+2 v_1+2 v_2+\lambda_{43} \geq 0, \\
+-16 w_1-3 w_2-8 v_1+2 v_2+\lambda_{35} \geq 0, \\
+-15 w_1-8 w_2-6 v_1+4 v_2+\lambda_{45} \geq 0 \\
+-20 w_1+2 w_2+8 v_1+4 v_2=1
+\end{gathered}
+$$
+
+
+所有 $\lambda, w \geq 0, V_1, V_2$ 和 $v_3$ 无符号限制。
+用 LINGO 求解得上述模型, 得到最优解为:
+
+$$
+\begin{aligned}
+& \dot{\lambda}^*=0.6111, \lambda_{12}^*=0.6111, \lambda_{31}^*=\lambda_{41}^*=\lambda_{51}^*=\lambda_{23}^*=\lambda_{21}^*=\lambda_{25}^*=\lambda_{45}^*=\lambda_{35}^*=\lambda_{45}^*=0 \\
+& \dot{w}^*=\left[\begin{array}{lll}
+0.0277 & 0.0554
+\end{array}\right]^T, \quad \dot{v}=\left[\begin{array}{ll}
+0.0833 & 0.1944
+\end{array}\right]^T, \dot{z}=\left[\begin{array}{lll}
+3.0072 & 3.5090
+\end{array}\right]^T
+\end{aligned}
+$$
+
+
+各方案到理想点的平方距离为
+
+$$
+S=\left[\begin{array}{llllll}
+0.3737 & 0.1234 & 0.3766 & 0.1260 & 0.3761
+\end{array}\right]^T .
+$$
+
+
+由于 $S_1 \succ S_2$, 与 $(1,2)$ 的比较偏好不一致: $S_3 \succ S_1$, 与 $(1,3)$ 的比较偏好不一致: $S_5 \succ S_1$,与（5,1) 的比较偏好不一致； $S_3 \succ S_5$ ，与（3,5）的比较偏好不一致：其它计算结果都与 $Q$ 中的有序对偏好一致，故可以把比较结果改进为：
+
+$$
+Q=\{(2,1),(1,3),(4,1),(1,5),(2,3),(2,4),(2,5),(4,3),(5,3),(4,5)\}
+$$
+
+
+因而得到 5 个供应商的优先顺序为 $x_2 \succ x_4 \succ x_1 \succ x_3 \succ x_3$ 。
+LINMAP 法并不要求集 $Q$ 包含 $n$ 个方案所有的成对比较, 但集 $Q$ 中的有序对的数量大一些，则由 LINMAP 法求得的权 $w$ 要准确一些。当方案的数目 $n$ 大于属性的数目 $m$ 时，采用 LINMAP 法能得到较好的结果，且该方法不要求方案的成对比较具有传递性。
