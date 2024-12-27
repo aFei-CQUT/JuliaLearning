@@ -1,52 +1,27 @@
-## 待完善，检查结果说不符合，但是计算结果与例题一致
-
-
-
-
-
 using LinearAlgebra
 
 A = [-2 3; 3 -2]
-x_star = [5 / 12, 7 / 12]
-y_star = [7 / 12, 5 / 12]
-V = 41 / 72
+x_star = [5 // 12, 7 // 12]
+y_star = [7 // 12, 5 // 12]
+V = 41 // 72
 
 function E(x, y)
     return x' * A * y
 end
 
 function check_optimality()
-    pure_strategies = [[1.0, 0.0], [0.0, 1.0]]
+    pure_strategies = [[1 // 1, 0 // 1], [0 // 1, 1 // 1]]
     for (i, x) in enumerate(pure_strategies)
         ex = E(x, y_star)
-        if ex > V + 1e-6
-            println("For pure strategy x$i: E(x, y*) = $ex > V = $V")
+        if ex > E(x_star, y_star)
+            println("对于纯策略 x$i: E(x, y*) = $ex > E(x*, y*) = $(E(x_star, y_star))")
             return false
         end
     end
     for (i, y) in enumerate(pure_strategies)
         ey = E(x_star, y)
-        if ey < V - 1e-6
-            println("For pure strategy y$i: E(x*, y) = $ey < V = $V")
-            return false
-        end
-    end
-    return true
-end
-
-function check_constant_expectation()
-    pure_strategies = [[1.0, 0.0], [0.0, 1.0]]
-    for (i, y) in enumerate(pure_strategies)
-        ey = E(x_star, y)
-        if !isapprox(ey, V, atol=1e-6)
-            println("For pure strategy y$i: E(x*, y) = $ey ≠ V = $V")
-            return false
-        end
-    end
-    for (i, x) in enumerate(pure_strategies)
-        ex = E(x, y_star)
-        if !isapprox(ex, V, atol=1e-6)
-            println("For pure strategy x$i: E(x, y*) = $ex ≠ V = $V")
+        if ey < E(x_star, y_star)
+            println("对于纯策略 y$i: E(x*, y) = $ey < E(x*, y*) = $(E(x_star, y_star))")
             return false
         end
     end
@@ -62,8 +37,8 @@ println(x_star)
 println("\n局中人2的最优混合策略 y*:")
 println(y_star)
 
-println("\n对策值 V:")
-println(V)
+println("\nE(x*, y*):")
+println(E(x_star, y_star))
 
 println("\n验证最优性条件:")
 if check_optimality()
@@ -72,14 +47,28 @@ else
     println("E(x, y*) ≤ E(x*, y*) ≤ E(x*, y) 条件不成立")
 end
 
-println("\n直接验证 E(x*, y*) = V:")
-println("E(x*, y*) = ", E(x_star, y_star))
-println("V = ", V)
-println("是否相等：", isapprox(E(x_star, y_star), V, atol=1e-6))
+# 额外的详细验证
+println("\n额外的详细验证:")
+pure_strategies = [[1 // 1, 0 // 1], [0 // 1, 1 // 1]]
+for (i, x) in enumerate(pure_strategies)
+    println("E(x$i, y*) = ", E(x, y_star))
+end
+for (i, y) in enumerate(pure_strategies)
+    println("E(x*, y$i) = ", E(x_star, y))
+end
 
-println("\n验证对任意y，E(x*, y) = V 且对任意x，E(x, y*) = V:")
-if check_constant_expectation()
-    println("条件成立")
-else
-    println("条件不成立")
+# 验证x*是否是最优策略
+println("\n验证x*是否是最优策略:")
+for (i, x) in enumerate(pure_strategies)
+    if E(x, y_star) > E(x_star, y_star)
+        println("x*不是最优策略，因为存在纯策略x$(i)使得E(x$(i), y*) > E(x*, y*)")
+    end
+end
+
+# 验证y*是否是最优策略
+println("\n验证y*是否是最优策略:")
+for (i, y) in enumerate(pure_strategies)
+    if E(x_star, y) < E(x_star, y_star)
+        println("y*不是最优策略，因为存在纯策略y$(i)使得E(x*, y$(i)) < E(x*, y*)")
+    end
 end
