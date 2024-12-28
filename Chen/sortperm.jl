@@ -44,7 +44,7 @@ println("均方误差导数方法权向量系数:" * string(l3))
 
 # 简单加权平均方法权向量系数
 l4 = zeros(5, 1)
-sorted_indices = sortperm(vec(Eii))
+sorted_indices = sortperm(vec(Eii), rev=true)
 Eii4 = 1:5
 for i in 1:5
     l4[sorted_indices[i]] = i / sum(Eii4)
