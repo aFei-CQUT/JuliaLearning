@@ -37,7 +37,7 @@ function find_core_boundaries()
 end
 
 # 主函数
-function main()
+function solve_example_8_6_8()
     println("例 8.6.8 核心解分析:")
 
     # 计算核心解的边界
@@ -65,4 +65,4 @@ function main()
 end
 
 # 运行主函数
-main()
+solve_example_8_6_8()
