@@ -356,10 +356,6 @@ $$
 
 定义 8.6.12 若 $x=\left(x_1, x_2, \ldots, x_n\right)$ 和 $y=\left(y_1, y_2, \cdots, y_n\right)$ 为合作 $n$ 人对策 $\boldsymbol{\Gamma}=[I, V]$ 的两个转归,
 
-
-
-
-
 $S$ 是一个联盟，若满足以下两个条件（1） $x_i>y_i, \forall i \in S$ ，（2） $\sum_{i \in S} x_i \leq V(S)$ ，则称在联盟 $S$ 上转归 $x$ 优超 $y$, 记为 $x \succ_S y$ 。
 
 定义 8.6.13 $x=\left(x_1, x_2, \ldots, x_n\right)$ 和 $y=\left(y_1, y_2, \cdots, y_n\right)$ 为合作 $n$ 人对策 $\boldsymbol{\Gamma}=[I, V]$ 的两个转归，若存在某个联盟 $S$, 使得 $x \succ_S y$, 则称转归 $x$ 优超 $y$, 记为 $x \succ y$ 。

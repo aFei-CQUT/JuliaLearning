@@ -1,9 +1,9 @@
+using BenchmarkTools
 using Combinatorics
 
+# 定义特征函数
 function V(S, α)
-    if length(S) == 0
-        return 0
-    elseif length(S) == 1
+    if length(S) == 0 || length(S) == 1
         return 0
     elseif length(S) == 2
         return α
@@ -12,27 +12,29 @@ function V(S, α)
     end
 end
 
-function is_imputation(x, α, atol=1e-3)
-    # 个体合理性
-    for xi in x
-        if xi < -atol
-            return false
-        end
-    end
-    # 集体合理性
-    return abs(sum(x) - 1) < atol
+# 检查是否为转归（分配）
+function is_imputation(x, α, atol=1e-6)
+    return all(x .>= -atol) && abs(sum(x) - 1) < atol
 end
 
+# 检查一个转归是否在联盟S上优超另一个转归
 function dominates(x, y, S, α)
-    for i in S
-        if x[i] <= y[i]
-            return false
-        end
-    end
-    return sum(x[i] for i in S) <= V(S, α)
+    return all(x[S] .> y[S]) && sum(x[S]) <= V(S, α)
 end
 
-function is_in_core(x, α, atol=1e-3)
+# 检查一个转归是否整体上优超另一个转归
+function dominates_overall(x, y, α)
+    N = [1, 2, 3]
+    for S in powerset(N)
+        if !isempty(S) && dominates(x, y, collect(S), α)
+            return true
+        end
+    end
+    return false
+end
+
+# 检查一个分配是否在核心中
+function is_in_core(x, α, atol=1e-6)
     N = [1, 2, 3]
     for S in powerset(N)
         if !isempty(S)
@@ -44,71 +46,80 @@ function is_in_core(x, α, atol=1e-3)
     return abs(sum(x) - V(N, α)) < atol
 end
 
-function find_core_allocations(α, n=100, atol=1e-3)
-    core_allocations = []
+# 生成所有可能的分配方案
+function generate_allocations(n=100)
+    allocations = []
     for i in 0:n
         for j in 0:(n-i)
             x1 = i // n
             x2 = j // n
             x3 = (n - i - j) // n
-            x = [x1, x2, x3]
-            if is_imputation(x, α, atol) && is_in_core(x, α, atol)
-                push!(core_allocations, x)
+            push!(allocations, [x1, x2, x3])
+        end
+    end
+    return allocations
+end
+
+# 找出核心中的分配方案
+function find_core_allocations(α, n=100, atol=1e-6)
+    allocations = generate_allocations(n)
+    return [x for x in allocations if is_imputation(x, α, atol) && is_in_core(x, α, atol)]
+end
+
+# 计算优超关系的数量
+function count_dominations(allocations, α)
+    count = 0
+    for (i, x) in enumerate(allocations)
+        for (j, y) in enumerate(allocations)
+            if i != j && dominates_overall(x, y, α)
+                count += 1
             end
         end
     end
-    return unique(core_allocations)
+    return count
 end
 
-# 测试代码
-α = 2 // 3
+# 主函数：求解例8.6.5
+function solve_example_8_6_5(α, n=100)
+    println("Solving Example 8.6.5 with α = $α and n = $n")
 
-x = [1 // 3, 1 // 3, 1 // 3]
-y = [1 // 6, 1 // 6, 2 // 3]
+    # 生成所有可能的分配方案
+    println("\nGenerating allocations:")
+    all_allocations = @btime generate_allocations($n)
+    println("Number of all allocations: ", length(all_allocations))
 
-println("x is an imputation: ", is_imputation(x, α))
-println("y is an imputation: ", is_imputation(y, α))
+    valid_imputations = @btime [x for x in $all_allocations if is_imputation(x, $α)]
+    println("Number of valid imputations: ", length(valid_imputations))
 
-S = [1, 2]
-println("x dominates y in coalition S = {1,2}: ", dominates(x, y, S, α))
+    # 计算优超关系的数量
+    println("\nCalculating domination relations:")
+    domination_count = @btime count_dominations($valid_imputations, $α)
+    println("Number of domination relations: ", domination_count)
 
-println("x is in the core: ", is_in_core(x, α))
+    # 找出核心中的分配方案
+    println("\nFinding core allocations:")
+    core_allocations = @btime find_core_allocations($α, $n)
+    println("Number of core allocations: ", length(core_allocations))
 
-core_allocations = find_core_allocations(α)
-println("\nNumber of core allocations found: ", length(core_allocations))
-println("Sample of core allocations:")
-for i in 1:min(5, length(core_allocations))
-    println(core_allocations[i])
-end
+    # 输出一些示例分配
+    println("\nSample allocations in the core:")
+    for i in 1:min(5, length(core_allocations))
+        println(core_allocations[i])
+    end
 
-println("\nChecking specific allocations:")
-test_allocations = [
-    [1 // 3, 1 // 3, 1 // 3],
-    [2 // 5, 3 // 10, 3 // 10],
-    [7 // 20, 7 // 20, 3 // 10]
-]
-for alloc in test_allocations
-    println(alloc, " is in core: ", is_in_core(alloc, α))
-end
-
-# 手动检查 [1/3, 1/3, 1/3]
-x_test = [1 // 3, 1 // 3, 1 // 3]
-println("\nManual check for [1/3, 1/3, 1/3]:")
-println("Is imputation: ", is_imputation(x_test, α))
-println("Is in core: ", is_in_core(x_test, α))
-
-println("\nTesting find_core_allocations with different n values:")
-for n in [100, 1000]
-    core_allocations = find_core_allocations(α, n)
-    println("n = $n: Found $(length(core_allocations)) core allocations")
-    if !isempty(core_allocations)
-        println("Sample: ", core_allocations[1])
+    # 检查特定的分配方案
+    test_allocations = [
+        [1 // 3, 1 // 3, 1 // 3],
+        [2 // 5, 3 // 10, 3 // 10],
+        [7 // 20, 7 // 20, 3 // 10]
+    ]
+    println("\nChecking specific allocations:")
+    for alloc in test_allocations
+        is_in_core_result = @btime is_in_core($alloc, $α)
+        println(alloc, " is in core: ", is_in_core_result)
     end
 end
 
-# 手动检查一个接近 [1/3, 1/3, 1/3] 的分配方案
-x_close = [333 // 1000, 333 // 1000, 334 // 1000]
-println("\nChecking a close approximation to [1/3, 1/3, 1/3]:")
-println(x_close)
-println("Is imputation: ", is_imputation(x_close, α))
-println("Is in core: ", is_in_core(x_close, α))
+# 运行主函数求解例8.6.5
+α = 2 // 3
+solve_example_8_6_5(α, 100)

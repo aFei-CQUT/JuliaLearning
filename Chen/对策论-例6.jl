@@ -47,6 +47,8 @@ function find_core(α, step=0.001)
     return unique(core)
 end
 
+
+# 主函数
 function solve_example_8_6_6()
     α = 2 / 3
     core = find_core(α)
@@ -81,5 +83,5 @@ function solve_example_8_6_6()
     end
 end
 
-# 运行例8.6.6的解答
+# 运行主函数求解例8.6.6
 solve_example_8_6_6()

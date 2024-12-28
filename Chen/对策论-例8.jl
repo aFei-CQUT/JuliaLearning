@@ -64,5 +64,5 @@ function solve_example_8_6_8()
     println("x1 + x2 + x3 = $(sum(balanced_solution)) = 1")
 end
 
-# 运行主函数
+# 运行主函数求解例8.6.8
 solve_example_8_6_8()

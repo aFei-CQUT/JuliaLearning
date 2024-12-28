@@ -23,8 +23,13 @@ function find_alpha_range()
     end
 end
 
-# 运行例 8.6.7
-max_alpha = find_alpha_range()
-println("例 8.6.7:")
-println("α 的最大值为: ", max_alpha)
-println("因此，C(V) ≠ ∅ 成立的 α 范围是: 0 ≤ α ≤ ", max_alpha)
+# 主函数
+function solve_example_8_6_7()
+    max_alpha = find_alpha_range()
+    println("例 8.6.7:")
+    println("α 的最大值为: ", max_alpha)
+    println("因此，C(V) ≠ ∅ 成立的 α 范围是: 0 ≤ α ≤ ", max_alpha)
+end
+
+# 运行主函数求解例8.6.7
+solve_example_8_6_7()
