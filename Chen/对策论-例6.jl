@@ -47,36 +47,39 @@ function find_core(α, step=0.001)
     return unique(core)
 end
 
-# 解决例8.6.6
-α = 2 / 3
-core = find_core(α)
+function solve_example_8_6_6()
+    α = 2 / 3
+    core = find_core(α)
 
-println("核心中的分配方案:")
-for x in core
-    println(x)
-end
+    println("核心中的分配方案:")
+    for x in core
+        println(x)
+    end
 
-# 验证例子中给出的两个分配方案
-x = [1 / 3, 1 / 3, 1 / 3]
-y = [1 / 6, 1 / 6, 2 / 3]
-V = S -> characteristic_function(S, α)
+    x = [1 / 3, 1 / 3, 1 / 3]
+    y = [1 / 6, 1 / 6, 2 / 3]
+    V = S -> characteristic_function(S, α)
 
-println("\n验证 x 和 y 是否为转归:")
-println("x 是转归: ", is_imputation(x, V))
-println("y 是转归: ", is_imputation(y, V))
+    println("\n验证 x 和 y 是否为转归:")
+    println("x 是转归: ", is_imputation(x, V))
+    println("y 是转归: ", is_imputation(y, V))
 
-println("\n验证 x 是否在核心中:")
-println("x 在核心中: ", is_in_core(x, α))
+    println("\n验证 x 是否在核心中:")
+    println("x 在核心中: ", is_in_core(x, α))
 
-println("\n验证 x 是否优超 y:")
-for S in powerset([1, 2, 3])
-    if !isempty(S) && is_dominating(x, y, collect(S), V)
-        println("x 在联盟 $S 上优超 y")
+    println("\n验证 x 是否优超 y:")
+    for S in powerset([1, 2, 3])
+        if !isempty(S) && is_dominating(x, y, collect(S), V)
+            println("x 在联盟 $S 上优超 y")
+        end
+    end
+
+    if any(is_dominating(x, y, collect(S), V) for S in powerset([1, 2, 3]) if !isempty(S))
+        println("x 优超 y")
+    else
+        println("x 不优超 y")
     end
 end
 
-if any(is_dominating(x, y, collect(S), V) for S in powerset([1, 2, 3]) if !isempty(S))
-    println("x 优超 y")
-else
-    println("x 不优超 y")
-end
+# 运行例8.6.6的解答
+solve_example_8_6_6()

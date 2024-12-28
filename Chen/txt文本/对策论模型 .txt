@@ -400,11 +400,6 @@ $$
 x_1 \geq 0, x_2 \geq 0, x_3 \geq 0 ; x_1+x_2 \geq 2 / 3 ; x_1+x_3 \geq 7 / 12 ; x_2+x_3 \geq 1 / 2 ; x_1+x_2+x_3=1
 $$
 
-
-
-
-
-
 所以上述不等式组解是 $0 \leq x_1 \leq \frac{1}{2}, 0 \leq x_2 \leq \frac{5}{12}, 0 \leq x_3 \leq \frac{1}{3}, x_1+x_2+x_3=1$
 显然核心解 $C(V)$ 是不唯一的。在这些无穷多个核心解中, $\left(x_1, x_2, x_3\right)=\left(\frac{1}{3}, \frac{1}{3}, \frac{1}{3},\right)$ 比较平衡, 是一种合适的分配方案。
 
